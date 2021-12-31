@@ -129,6 +129,7 @@ function main() {
     $("#startButton").prop("disabled", true); $("#game").append("<div id='player'></div>");
 
     const game = {};
+    game.running = true
     game.clock = setInterval(loop, 30);
     game.playerMoviment = 10;
     game.keysPress = [];

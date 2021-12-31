@@ -82,33 +82,6 @@ h1 {
     background-image: url("../imgs/Player_size2.png");
 }
 
-/* #enemy0 {
-    position: absolute;
-    width: 162px;
-    height: 122px;
-    top: calc(50% - (122px / 2));
-    left: calc(100% - 162px);
-    background-image: url("../imgs/enemy2.png");
-}
-
-#enemy1 {
-    position: absolute;
-    width: 162px;
-    height: 122px;
-    top: calc(50% - (122px / 2));
-    left: calc(100% - 162px);
-    background-image: url("../imgs/enemy2.png");
-}
-
-#enemy2 {
-    position: absolute;
-    width: 162px;
-    height: 122px;
-    top: calc(50% - (122px / 2));
-    left: calc(100% - 162px);
-    background-image: url("../imgs/enemy2.png");
-} */
-
 #blast {
     position: absolute;
     width: 64px;
