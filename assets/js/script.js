@@ -36,16 +36,21 @@ function playerMoviment(game, keys) {
 }
 
 
+function resetEnemy(enemy) {
+    enemy.posY = parseInt(Math.random() * (parseInt($("#game").css("height")) - parseInt($(`#enemy${enemy.name}`).css("height"))));
+    enemy.vel = parseInt(Math.random() * 5 + 7)
+    $(`#enemy${enemy.name}`).css("left", enemy.posX);
+    $(`#enemy${enemy.name}`).css("top", enemy.posY);
+}
+
+
 function enemyMoviments(enemy) {
     let posX = parseInt($(`#enemy${enemy.name}`).css("left"))
 
     $(`#enemy${enemy.name}`).css("top", enemy.posY);
     $(`#enemy${enemy.name}`).css("left", posX - enemy.vel);
     if (posX <= 0) {
-        enemy.posY = parseInt(Math.random() * (parseInt($("#game").css("height")) - parseInt($(`#enemy${enemy.name}`).css("height"))));
-        enemy.vel = parseInt(Math.random() * 5 + 7)
-        $(`#enemy${enemy.name}`).css("left", enemy.posX);
-        $(`#enemy${enemy.name}`).css("top", enemy.posY);
+        resetEnemy(enemy)
     }
 }
 
@@ -60,25 +65,63 @@ function drawBlast() {
     })
 }
 
+
 function blastMoviment(game) {
-    let posX = parseInt($("#blast").css("left"))
-    $("#blast").css("left", posX + 20)
+    let posX = parseInt($("#blast").css("left"));
+    $("#blast").css("left", posX + 20);
 
     if (posX >= (parseInt($("#game").css("width")) - 64)) {
-        $("#blast").remove()
-        game.shootState = false
+        $("#blast").remove();
+        game.shootState = false;
     }
 }
 
 
-function scoreUpdate() {
-    let score = parseInt($("#score").text())
-    $("#score").text(score + 100)
+function scoreUpdate(point = 1) {
+    let score = parseInt($("#score").text());
+    $("#score").text(score + point);
 }
 
 
-function collisionHandler() {
-    return
+function energyBarUpdate() {
+    let energy = parseInt($("#energyBar").css("width"))
+    $("#energyBar").css("width", energy - 24)
+    return (parseInt($("#energyBar").css("width")))
+}
+
+
+function shockWave(x, y) {
+    $("#game").append(`<div id="shockWave"></div>`);
+    $("#shockWave").css({
+        "left": x,
+        "top": y,
+    });
+
+    let timeShockWave = window.setInterval(removeShockWaveFoo, 500);
+
+    function removeShockWaveFoo() {
+        $("#shockWave").remove();
+        window.clearInterval(timeShockWave)
+    }
+}
+
+
+function collisionHandler(game, enemy) {
+    let playerCollision = $("#player").collision($(`#enemy${enemy.name}`));
+    let blastCollision = $("#blast").collision($(`#enemy${enemy.name}`));
+
+    if (playerCollision.length != 0) {
+        energyBarUpdate();
+        resetEnemy(enemy);
+        shockWave(parseInt($("#player").css("left")), parseInt($("#player").css("top")));
+    } else if (blastCollision.length != 0) {
+        scoreUpdate(100);
+        resetEnemy(enemy);
+        shockWave(parseInt($("#blast").css("left")), parseInt($("#blast").css("top")) - 50);
+        $("#blast").remove();
+        game.shootState = false;
+        enemy.vel++;
+    }
 }
 
 
@@ -90,7 +133,7 @@ function main() {
     game.playerMoviment = 10;
     game.keysPress = [];
 
-    game.enemies = []
+    game.enemies = [];
     for (let i = 0; i < 3; i++) {
         $("#game").append(`<div id="enemy${i}"></div>`);
         $(`#enemy${i}`).css({
@@ -109,7 +152,7 @@ function main() {
             posY: parseInt(Math.random() * (parseInt($("#game").css("height")) - parseInt($(`#enemy${i}`).css("height")))),
             vel: parseInt(Math.random() * 5 + 7)
         };
-        game.enemies.push(enemy)
+        game.enemies.push(enemy);
     }
 
     game.shootState = false;
@@ -137,12 +180,13 @@ function main() {
 
         for (enemy of game.enemies) {
             enemyMoviments(enemy);
+            collisionHandler(game, enemy);
         }
 
         if (game.shootState) {
-            blastMoviment(game)
+            blastMoviment(game);
         }
 
-        collisionHandler()
+        scoreUpdate()
     }
 }

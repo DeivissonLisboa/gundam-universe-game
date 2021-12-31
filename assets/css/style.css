@@ -55,12 +55,20 @@ h1 {
     color: #e9e5e1;
 }
 
-#energyBar {
+.energyHud {
+    position: absolute;
     height: 24px;
     width: 240px;
     border-style: solid;
-    border-width: 2px;
+    border-width: 3px;
+    border-radius: 5px;
     border-color: #e9e5e1;
+    box-shadow: inset 1px 1px 5px black;
+}
+
+#energyBar {
+    height: 24px;
+    width: 240px;
     border-radius: 5px;
     background-color: #f87000;
 }
@@ -106,6 +114,19 @@ h1 {
     width: 64px;
     height: 38px;
     background-image: url("../imgs/blast_size2.png");
+}
+
+#shockWave {
+    position: absolute;
+    width: 128px;
+    height: 128px;
+    left: -500px;
+    background: transparent url("../imgs/explosion_size2.png") 0 0 no-repeat;
+    animation: shockWaveAnimation 0.5s steps(8);
+}
+
+@keyframes shockWaveAnimation {
+    100% { background-position: -1024px 0;}
 }
 
 footer {
