@@ -22,6 +22,11 @@ header {
     min-height: 164px;
 }
 
+#startButton {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .banner {
     background-image: url("../imgs/banner.png");
     background-repeat: no-repeat, no-repeat;
@@ -42,9 +47,22 @@ h1 {
     border-radius: 5px;
 }
 
-#startButton {
-    margin-left: auto;
-    margin-right: auto;
+#hud {
+    padding-top: 10px;
+    padding-left: 10px;
+    margin-right: 5px;
+    font-family: Roboto-Black;
+    color: #e9e5e1;
+}
+
+#energyBar {
+    height: 24px;
+    width: 240px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #e9e5e1;
+    border-radius: 5px;
+    background-color: #f87000;
 }
 
 #player {
@@ -56,7 +74,7 @@ h1 {
     background-image: url("../imgs/Player_size2.png");
 }
 
-#enemy0 {
+/* #enemy0 {
     position: absolute;
     width: 162px;
     height: 122px;
@@ -81,11 +99,11 @@ h1 {
     top: calc(50% - (122px / 2));
     left: calc(100% - 162px);
     background-image: url("../imgs/enemy2.png");
-}
+} */
 
 #blast {
     position: absolute;
-    width: 63px;
+    width: 64px;
     height: 38px;
     background-image: url("../imgs/blast_size2.png");
 }
