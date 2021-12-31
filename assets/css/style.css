@@ -1,0 +1,100 @@
+@font-face {
+    font-family: Roboto-Black;
+    src: url("../fonts/Roboto-Black.ttf");
+}
+
+body {
+    /* background-color: gray !important; */
+    background-image: url("../imgs/bodySpace.png");
+}
+
+#mainContainer {
+    min-height: 100vh;
+    background-color: #e9e5e1;
+    box-shadow: -10px 0 25px black, 10px 0 25px black;
+    /* font-family: Roboto-Black !important; */
+    font-weight: bold;
+}
+
+header {
+    padding-top: 30px;
+    padding-left: 30px;
+    min-height: 164px;
+}
+
+.banner {
+    background-image: url("../imgs/banner.png");
+    background-repeat: no-repeat, no-repeat;
+}
+
+h1 {
+    font-family: Roboto-Black;
+}
+
+#game {
+    position: relative;
+    margin-top: 30px;
+    min-height: 500px;
+    max-height: 500px;
+    background-color: black;
+    background-image: url("../imgs/space.png");
+    box-shadow: -1px -1px 10px black, 1px 1px 10px black;
+    border-radius: 5px;
+}
+
+#startButton {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#player {
+    position: absolute;
+    height: 128px;
+    width: 128px;
+    top: calc(50% - (128px / 2));
+    left: 10%;
+    background-image: url("../imgs/Player_size2.png");
+}
+
+#enemy0 {
+    position: absolute;
+    width: 162px;
+    height: 122px;
+    top: calc(50% - (122px / 2));
+    left: calc(100% - 162px);
+    background-image: url("../imgs/enemy2.png");
+}
+
+#enemy1 {
+    position: absolute;
+    width: 162px;
+    height: 122px;
+    top: calc(50% - (122px / 2));
+    left: calc(100% - 162px);
+    background-image: url("../imgs/enemy2.png");
+}
+
+#enemy2 {
+    position: absolute;
+    width: 162px;
+    height: 122px;
+    top: calc(50% - (122px / 2));
+    left: calc(100% - 162px);
+    background-image: url("../imgs/enemy2.png");
+}
+
+#blast {
+    position: absolute;
+    width: 63px;
+    height: 38px;
+    background-image: url("../imgs/blast_size2.png");
+}
+
+footer {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+a {
+    color: black !important;
+}
