@@ -37,18 +37,18 @@ function playerMoviment(game, keys) {
 
 
 function resetEnemy(enemy) {
-    enemy.posY = parseInt(Math.random() * (parseInt($("#game").css("height")) - parseInt($(`#enemy${enemy.name}`).css("height"))));
+    enemy.posY = parseInt(Math.random() * (parseInt($("#game").css("height")) - parseInt($(enemy.name).css("height"))));
     enemy.vel = parseInt(Math.random() * 5 + 7)
-    $(`#enemy${enemy.name}`).css("left", enemy.posX);
-    $(`#enemy${enemy.name}`).css("top", enemy.posY);
+    $(enemy.name).css("left", enemy.posX);
+    $(enemy.name).css("top", enemy.posY);
 }
 
 
 function enemyMoviments(enemy) {
-    let posX = parseInt($(`#enemy${enemy.name}`).css("left"))
+    let posX = parseInt($(enemy.name).css("left"))
 
-    $(`#enemy${enemy.name}`).css("top", enemy.posY);
-    $(`#enemy${enemy.name}`).css("left", posX - enemy.vel);
+    $(enemy.name).css("top", enemy.posY);
+    $(enemy.name).css("left", posX - enemy.vel);
     if (posX <= 0) {
         resetEnemy(enemy)
     }
@@ -91,8 +91,7 @@ function energyBarUpdate(game) {
     let energy = parseInt($("#energyBar").css("width"));
     $("#energyBar").css("width", energy - 24);
 
-    if (energy <= 5) {
-        console.log("TRIGGER")
+    if (energy === 0) {
         game.running = false;
     }
 }
@@ -116,8 +115,8 @@ function shockWave(x, y) {
 
 function collisionHandler(game, enemy) {
     const collisionSound = document.getElementById("collisionSound");
-    let playerCollision = $("#player").collision($(`#enemy${enemy.name}`));
-    let blastCollision = $("#blast").collision($(`#enemy${enemy.name}`));
+    let playerCollision = $("#player").collision($(enemy.name));
+    let blastCollision = $("#blast").collision($(enemy.name));
 
     if (playerCollision.length != 0) {
         collisionSound.play()
@@ -143,7 +142,7 @@ function gameOver(game, backgroundMusic) {
     $("#player").remove()
 
     for (enemy of game.enemies) {
-        $(enemy.name).remove
+        $(enemy.name).remove()
     }
 
     $("#hud").remove()
@@ -154,7 +153,7 @@ function gameOver(game, backgroundMusic) {
         `<div id="gameOverCard" class="card" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">GAME OVER</h5>
-                <p class="card-text">Don't forget it to check out the project source code on <a
+                <p class="card-text">Don't forget it to check it out the project source code on <a
                         href="https://github.com/DeivissonLisboa/gundam-universe-game" target="_blank">Github</a>!
                 </p>
             </div>
@@ -222,7 +221,7 @@ function main() {
             "background-image": "url('/assets/imgs/enemy2.png')",
         });
         let enemy = {
-            name: i,
+            name: enemyName,
             witdh: $(`${enemyName}`).css("width"),
             height: $(`${enemyName}`).css("height"),
             posX: $(`${enemyName}`).css("left"),
