@@ -56,6 +56,9 @@ function enemyMoviments(enemy) {
 
 
 function drawBlast() {
+    const blastSound = document.getElementById("blastSound");
+    blastSound.play()
+    blastSound.volume = 0.2
     let posX = parseInt($("#player").css("left"))
     let posY = parseInt($("#player").css("top"))
     $("#game").append('<div id="blast"></div>')
@@ -77,16 +80,21 @@ function blastMoviment(game) {
 }
 
 
-function scoreUpdate(point = 1) {
+function scoreUpdate(game, point = 1) {
     let score = parseInt($("#score").text());
     $("#score").text(score + point);
+    game.score = score;
 }
 
 
-function energyBarUpdate() {
-    let energy = parseInt($("#energyBar").css("width"))
-    $("#energyBar").css("width", energy - 24)
-    return (parseInt($("#energyBar").css("width")))
+function energyBarUpdate(game) {
+    let energy = parseInt($("#energyBar").css("width"));
+    $("#energyBar").css("width", energy - 24);
+
+    if (energy <= 5) {
+        console.log("TRIGGER")
+        game.running = false;
+    }
 }
 
 
@@ -101,21 +109,26 @@ function shockWave(x, y) {
 
     function removeShockWaveFoo() {
         $("#shockWave").remove();
-        window.clearInterval(timeShockWave)
+        window.clearInterval(timeShockWave);
     }
 }
 
 
 function collisionHandler(game, enemy) {
+    const collisionSound = document.getElementById("collisionSound");
     let playerCollision = $("#player").collision($(`#enemy${enemy.name}`));
     let blastCollision = $("#blast").collision($(`#enemy${enemy.name}`));
 
     if (playerCollision.length != 0) {
-        energyBarUpdate();
+        collisionSound.play()
+        collisionSound.volume = 0.2
+        energyBarUpdate(game);
         resetEnemy(enemy);
         shockWave(parseInt($("#player").css("left")), parseInt($("#player").css("top")));
     } else if (blastCollision.length != 0) {
-        scoreUpdate(100);
+        collisionSound.play()
+        collisionSound.volume = 0.2
+        scoreUpdate(game, 100);
         resetEnemy(enemy);
         shockWave(parseInt($("#blast").css("left")), parseInt($("#blast").css("top")) - 50);
         $("#blast").remove();
@@ -125,7 +138,56 @@ function collisionHandler(game, enemy) {
 }
 
 
+function gameOver(game, backgroundMusic) {
+    backgroundMusic.pause();
+    $("#player").remove()
+
+    for (enemy of game.enemies) {
+        $(enemy.name).remove
+    }
+
+    $("#hud").remove()
+
+    window.clearInterval(game.clock)
+
+    $("#game").append(
+        `<div id="gameOverCard" class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">GAME OVER</h5>
+                <p class="card-text">Don't forget it to check out the project source code on <a
+                        href="https://github.com/DeivissonLisboa/gundam-universe-game" target="_blank">Github</a>!
+                </p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Score: ${game.score}</li>
+                <li class="list-group-item">
+                    <button id="restartButton" type="button" class="btn btn-dark" onclick="main()">Restart</button>
+                </li>
+            </ul>
+        </div>`
+    );
+
+}
+
+
 function main() {
+    const backgroundMusic = document.getElementById("backgroundMusic");
+    backgroundMusic.addEventListener("ended", () => { backgroundMusic.currentTime = 0; backgroundMusic.play() }, false);
+    backgroundMusic.play();
+    backgroundMusic.volume = 0.1;
+
+    const game = {};
+    const keys = {
+        W: 87,
+        A: 65,
+        S: 83,
+        D: 68,
+        K: 75
+    };
+
+    if ($("#gameOverCard")) {
+        $("#gameOverCard").remove()
+    }
     $("#startButton").prop("disabled", true);
     $("#game").append("<div id='player'></div>");
     $("#game").append(
@@ -142,7 +204,6 @@ function main() {
         </div>`
     )
 
-    const game = {};
     game.running = true
     game.clock = setInterval(loop, 30);
     game.playerMoviment = 10;
@@ -150,8 +211,9 @@ function main() {
 
     game.enemies = [];
     for (let i = 0; i < 3; i++) {
+        let enemyName = "#enemy" + i
         $("#game").append(`<div id="enemy${i}"></div>`);
-        $(`#enemy${i}`).css({
+        $(`${enemyName}`).css({
             "position": "absolute",
             "width": "162px",
             "height": "122px",
@@ -161,24 +223,19 @@ function main() {
         });
         let enemy = {
             name: i,
-            witdh: $(`#enemy${i}`).css("width"),
-            height: $(`#enemy${i}`).css("height"),
-            posX: $(`#enemy${i}`).css("left"),
-            posY: parseInt(Math.random() * (parseInt($("#game").css("height")) - parseInt($(`#enemy${i}`).css("height")))),
+            witdh: $(`${enemyName}`).css("width"),
+            height: $(`${enemyName}`).css("height"),
+            posX: $(`${enemyName}`).css("left"),
+            posY: parseInt(Math.random() * (parseInt($("#game").css("height")) - parseInt($(`${enemyName}`).css("height")))),
             vel: parseInt(Math.random() * 5 + 7)
         };
         game.enemies.push(enemy);
     }
 
     game.shootState = false;
+    game.score = 0
 
-    const keys = {
-        W: 87,
-        A: 65,
-        S: 83,
-        D: 68,
-        K: 75
-    };
+
 
     $(document).keydown(function (e) {
         game.keysPress[e.keyCode] = true;
@@ -202,6 +259,10 @@ function main() {
             blastMoviment(game);
         }
 
-        scoreUpdate()
+        if (!game.running) {
+            gameOver(game, backgroundMusic)
+        } else {
+            scoreUpdate(game)
+        }
     }
 }

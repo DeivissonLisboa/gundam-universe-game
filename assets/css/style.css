@@ -110,3 +110,9 @@ footer {
 a {
     color: black !important;
 }
+
+#gameOverCard {
+    position: absolute;
+    left: calc(50% - 144px);
+    top: calc(50% - 118px);
+}
