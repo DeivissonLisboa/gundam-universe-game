@@ -85,7 +85,12 @@ h1, h5{
     width: 128px;
     top: calc(50% - (128px / 2));
     left: 10%;
-    background-image: url("../imgs/Player_size2.png");
+    background: transparent url("../imgs/playerSpritesheet_size2.png") 0 0 no-repeat;
+    animation: playerSprite 0.5s steps(4) infinite;
+}
+
+@keyframes playerSprite {
+    100% { background-position: 0 -512px;}
 }
 
 #blast {
