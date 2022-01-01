@@ -218,7 +218,7 @@ function main() {
             "height": "122px",
             "top": "calc(50% - (122px / 2))",
             "left": "calc(100% - 162px)",
-            "background-image": "url('/assets/imgs/enemy2.png')",
+            "background-image": "url('./assets/imgs/enemy2.png')",
         });
         let enemy = {
             name: enemyName,
