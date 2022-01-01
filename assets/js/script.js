@@ -38,7 +38,7 @@ function playerMoviment(game, keys) {
 
 function resetEnemy(enemy) {
     enemy.posY = parseInt(Math.random() * (parseInt($("#game").css("height")) - parseInt($(enemy.name).css("height"))));
-    enemy.vel = parseInt(Math.random() * 5 + 7)
+    enemy.vel = parseInt(Math.random() * enemy.minVel + enemy.maxVel);
     $(enemy.name).css("left", enemy.posX);
     $(enemy.name).css("top", enemy.posY);
 }
@@ -57,15 +57,16 @@ function enemyMoviments(enemy) {
 
 function drawBlast() {
     const blastSound = document.getElementById("blastSound");
-    blastSound.play()
-    blastSound.volume = 0.2
-    let posX = parseInt($("#player").css("left"))
-    let posY = parseInt($("#player").css("top"))
-    $("#game").append('<div id="blast"></div>')
+    blastSound.pause();
+    blastSound.play();
+    blastSound.volume = 0.2;
+    let posX = parseInt($("#player").css("left"));
+    let posY = parseInt($("#player").css("top"));
+    $("#game").append('<div id="blast"></div>');
     $("#blast").css({
         "left": posX + 128,
         "top": posY + (128 / 3)
-    })
+    });
 }
 
 
@@ -119,35 +120,43 @@ function collisionHandler(game, enemy) {
     let blastCollision = $("#blast").collision($(enemy.name));
 
     if (playerCollision.length != 0) {
-        collisionSound.play()
-        collisionSound.volume = 0.2
+        collisionSound.pause();
+        collisionSound.play();
+        collisionSound.volume = 0.2;
         energyBarUpdate(game);
+
+        enemy.maxVel += 0.25;
         resetEnemy(enemy);
+
         shockWave(parseInt($("#player").css("left")), parseInt($("#player").css("top")));
     } else if (blastCollision.length != 0) {
-        collisionSound.play()
-        collisionSound.volume = 0.2
+        collisionSound.pause();
+        collisionSound.play();
+        collisionSound.volume = 0.2;
         scoreUpdate(game, 100);
+
+        enemy.maxVel += 0.25;
         resetEnemy(enemy);
+
         shockWave(parseInt($("#blast").css("left")), parseInt($("#blast").css("top")) - 50);
         $("#blast").remove();
         game.shootState = false;
-        enemy.vel++;
     }
 }
 
 
 function gameOver(game, backgroundMusic) {
     backgroundMusic.pause();
-    $("#player").remove()
+    $("#player").remove();
+    $("#blast").remove()
 
     for (enemy of game.enemies) {
-        $(enemy.name).remove()
+        $(enemy.name).remove();
     }
 
-    $("#hud").remove()
+    $("#hud").remove();
 
-    window.clearInterval(game.clock)
+    window.clearInterval(game.clock);
 
     $("#game").append(
         `<div id="gameOverCard" class="card" style="width: 18rem;">
@@ -226,8 +235,11 @@ function main() {
             height: $(`${enemyName}`).css("height"),
             posX: $(`${enemyName}`).css("left"),
             posY: parseInt(Math.random() * (parseInt($("#game").css("height")) - parseInt($(`${enemyName}`).css("height")))),
-            vel: parseInt(Math.random() * 5 + 7)
+            minVel: 5,
+            maxVel: 10,
+            vel: 0
         };
+        enemy.vel = parseInt(Math.random() * enemy.minVel + enemy.maxVel)
         game.enemies.push(enemy);
     }
 
