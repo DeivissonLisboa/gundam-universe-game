@@ -126,7 +126,21 @@ function collisionHandler(game, enemy) {
 
 
 function main() {
-    $("#startButton").prop("disabled", true); $("#game").append("<div id='player'></div>");
+    $("#startButton").prop("disabled", true);
+    $("#game").append("<div id='player'></div>");
+    $("#game").append(
+        `<div id="hud" class="row">
+            <div class="col">
+                <h4>ENERGY</h4>
+                <div class="energyHud"></div>
+                <div id="energyBar"></div>
+            </div>
+            <div class="col text-right">
+                <h4>SCORE</h4>
+                <h5 id="score">0</h5>
+            </div>
+        </div>`
+    )
 
     const game = {};
     game.running = true

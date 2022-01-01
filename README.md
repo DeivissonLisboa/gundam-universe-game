@@ -11,5 +11,5 @@ Player / Enemies / Blasts: [Blazing Star Mech sprites](https://www.spriters-reso
 Background: [SPACE](https://vectorpixelstar.itch.io/space) by VectorPixelStar
 
 ## Musics
-[Patreon Goal Reward Loops - Track 13](http://www.abstractionmusic.com/) by Abstraction <br>
-[Shapeforms Audio Free Sound Effects](https://shapeforms.itch.io/shapeforms-audio-free-sfx) by Shapeforms
+Background Music: [Patreon Goal Reward Loops - Track 13](http://www.abstractionmusic.com/) by Abstraction <br>
+Shock Wave SFX: [Shapeforms Audio Free Sound Effects](https://shapeforms.itch.io/shapeforms-audio-free-sfx) by Shapeforms
