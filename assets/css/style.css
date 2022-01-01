@@ -28,8 +28,15 @@ header {
 }
 
 .banner {
-    background-image: url("../imgs/banner.png");
-    background-repeat: no-repeat, no-repeat;
+    padding-right: 0 !important;
+}
+
+#bannerImage {
+    height: 80%;
+    width: 100%;
+    border-radius: 10px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
 }
 
 h1, h5{
@@ -38,7 +45,6 @@ h1, h5{
 
 #game {
     position: relative;
-    margin-top: 30px;
     min-height: 500px;
     max-height: 500px;
     background-color: black;
